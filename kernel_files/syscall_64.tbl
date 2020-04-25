@@ -343,8 +343,6 @@
 333	common	my_add			sys_my_add
 334	common	my_printk		sys_my_printk
 335	common	my_get_time		sys_my_get_time
-336	common	my_printk_2		sys_my_printk_2
-337	common	my_get_time_2		sys_my_get_time_2
 
 #
 # x32-specific system call numbers start at 512 to avoid cache impact

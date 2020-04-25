@@ -14,8 +14,6 @@ obj-y     = fork.o exec_domain.o panic.o \
 
 obj-y += my_add.o
 obj-y += my_syscalls.o
-obj-y += my_printk.o
-obj-y += my_get_time.o
 
 obj-$(CONFIG_MODULES) += kmod.o
 obj-$(CONFIG_MULTIUSER) += groups.o
