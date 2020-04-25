@@ -7,6 +7,7 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument('input_path')
 	parser.add_argument('output_path')
+	parser.add_argument('theoretical_path')
 	args = parser.parse_args()
 	
 	with open(os.path.join(args.output_path, 'TIME_MEASUREMENT_dmesg.txt'), 'r') as f:
@@ -26,9 +27,9 @@ if __name__ == '__main__':
 		print('|' + filename + '||||||')
 		
 		theoretical = {}
-		if os.path.isdir('theoretical'):
+		if os.path.isdir(args.theoretical_path):
 
-			with open(os.path.join('theoretical', filename), 'r') as f:
+			with open(os.path.join(args.theoretical_path, filename), 'r') as f:
 
 				for line in f:
 					
