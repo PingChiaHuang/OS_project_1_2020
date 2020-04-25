@@ -7,6 +7,7 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument('input_path')
 	parser.add_argument('output_path')
+	parser.add_argument('theoretical_path')
 	parser.add_argument('--print_input', '-pi', action = 'store_true')
 	parser.add_argument('--print_theoretical', '-pt', action = 'store_true')
 	parser.add_argument('--diff', '-d', action = 'store_false')
@@ -37,9 +38,9 @@ if __name__ == '__main__':
 			print()
 		
 		theoretical = {}
-		if os.path.isdir('theoretical'):
+		if os.path.isdir(args.theoretical_path):
 
-			with open(os.path.join('theoretical', filename), 'r') as f:
+			with open(os.path.join(args.theoretical_path, filename), 'r') as f:
 
 				for line in f:
 					
