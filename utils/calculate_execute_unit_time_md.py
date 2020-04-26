@@ -19,6 +19,8 @@ if __name__ == '__main__':
 
 	dir_list = os.listdir(args.input_path)
 	dir_list.sort()
+	theoretical_times = []
+	error_times = []
 	
 	print('|file|process name|theoretical time|execution time|error|error percentage|')	
 	print('|:---:|:---:|:---:|:---:|:---:|:---:|')	
@@ -51,5 +53,18 @@ if __name__ == '__main__':
 				name = pid_to_name[line_list[1]]
 				exec_time = (float(line_list[3]) - float(line_list[2])) / unit_time
 				error_time = exec_time - theoretical[name]
+				theoretical_times.append(theoretical[name])
+				error_times.append(error_time)
 				
 				print('||%s|%d|%.2f|%.2f|%.2f%%|' % (name, theoretical[name], round(exec_time, 2), round(error_time, 2), round(error_time / theoretical[name] * 100, 2)))
+	
+	theoretical_times = np.array(theoretical_times)
+	error_times = np.array(error_times)
+	average_theoretical_time = np.mean(theoretical_times)
+	average_error_time = np.mean(error_times)
+	average_abs_error_time = np.mean(np.abs(error_times))
+	print('average theoretical times = %f' % average_theoretical_time)
+	print('average error times = %f' % average_error_time)
+	print('average abs error times = %f' % average_abs_error_time)
+	print('average error percentange = %f' % (average_error_time / average_theoretical_time))
+	print('average absolute error percentage = %f' % (average_abs_error_time / average_theoretical_time))
