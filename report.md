@@ -62,12 +62,14 @@ linux 4.14.25
 
 誤差最大的慢了**183.25**個unit time，大約是**0.32**秒，實際的時間是8683.25個unit time，比理論時間的8000個unit time慢了**2.16%**；誤差最小的快了**643.23**個unit time，大約是**1.13**秒，實際的時間是22356.77個unit time，比理論時間的23000個unit time快了**2.80%**。誤差百分比最大的慢了**6.82%**，實際的時間是534.12個unit time，比理論時間的500個unit time多了大概**34.12**個unit time，大約是**0.06**秒；誤差百分比最小的快了**8.98%**，實際的時間是3640.76個unit time，比理論時間的4000個unit time少了大概**359.24**個unit time，大約是**0.63**秒。單筆誤差都沒有超過**10%**，也都沒有超過**1000**個unit time。
 
-整體而言，平均誤差沒有超過**2%**，也沒有超過**100**個unit time，理論跟實際上沒有很明顯的差別。
+造成這段誤差的主因是每個unit time的長度本來就不固定，利用平均的unit time來計算本來就會有誤差。其次，每顆CPU本來就都有其他系統process，所以會影響到實際結果。再者，調整priority也需要時間。最後，透過my_get_time向系統取得系統時間也要時間。綜合以上因素，這些誤差是不可避免的。
+
+不過，整體而言，平均誤差沒有超過**2%**，也沒有超過**100**個unit time，理論跟實際上的差別其實沒有很明顯。
 
 **unit time = 0.001764**
 **average theoretical times = 5587.678571**
 **average error times = -62.652623**
-**average abs error times = 87.082214**
+**average absolute error times = 87.082214**
 **average error percentange = -0.011213**
 **average absolute error percentage = 0.015585**
 
