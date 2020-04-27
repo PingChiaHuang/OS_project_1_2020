@@ -58,7 +58,7 @@ linux 4.14.25
 
 ### 3. 比較結果
 
-下表為理論執行時間與實際執行時間的比較表。先依據TIME_MEASUREMENT算出平均的unit time，再依據dmesg.txt中的start time和end time算出exec_time做比較。
+下表為理論執行時間與實際執行時間的比較表。先依據TIME_MEASUREMENT算出平均的unit time，再依據dmesg.txt中的start time和end time算出exec_time，最後再利用這兩項算出exec_time的時間相當於幾個平均unit time，利用這個值與理論上的執行unit time做比較。
 
 誤差最大的慢了**183.25**個unit time，大約是**0.32**秒，實際的時間是8683.25個unit time，比理論時間的8000個unit time慢了**2.16%**；誤差最小的快了**643.23**個unit time，大約是**1.13**秒，實際的時間是22356.77個unit time，比理論時間的23000個unit time快了**2.80%**。誤差百分比最大的慢了**6.82%**，實際的時間是534.12個unit time，比理論時間的500個unit time多了大概**34.12**個unit time，大約是**0.06**秒；誤差百分比最小的快了**8.98%**，實際的時間是3640.76個unit time，比理論時間的4000個unit time少了大概**359.24**個unit time，大約是**0.63**秒。單筆誤差都沒有超過**10%**，也都沒有超過**1000**個unit time。
 
