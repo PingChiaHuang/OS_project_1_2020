@@ -19,7 +19,7 @@ int next_process(Process* processes, int process_num, int policy_index, int runn
 		int res = -1;
 		int time = 2147483647;
 		for(int i = 0; i < process_num; i++) {
-			if(processes[i].pid != -1 && processes[i].exec_time < time && processes[i].run_time < processes[i].exec_time) {
+			if(processes[i].pid != -1 && (processes[i].exec_time - processes[i].run_time) < time && processes[i].run_time < processes[i].exec_time) {
 
 				res = i;
 				time = processes[i].exec_time;
