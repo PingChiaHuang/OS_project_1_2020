@@ -8,7 +8,7 @@
 #define SJF  3
 #define PSJF 4
 
-int next_process(Process* processes, int process_num, int policy_index, int running, int last);
+int next_process(Process* processes, int process_num, int policy_index, int running, int last, Process** mapping, int time);
 
 void schedule(Process* processes, int process_num, int policy_index);
 

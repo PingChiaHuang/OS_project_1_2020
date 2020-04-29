@@ -1,12 +1,13 @@
 #include <sys/wait.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #include "process.h"
 #include "scheduler.h"
 #include "CPU.h"
 
-int next_process(Process* processes, int process_num, int policy_index, int running, int last) {
+int next_process(Process* processes, int process_num, int policy_index, int running, int last, Process** mapping, int time) {
 	if(running != -1 && (policy_index == FIFO || policy_index == SJF)) {
 		return running;
 	} else if(policy_index == FIFO) {
@@ -31,10 +32,30 @@ int next_process(Process* processes, int process_num, int policy_index, int runn
 		
 		if(running == -1 || processes[running].run_time % 500 == 0) {
 			
+			if(running != -1) {
+						
+				int index = 0;
+				for(; index < process_num; index++) {
+					if(mapping[index]->pid != -1 && mapping[index]->run_time < mapping[index]->exec_time) {
+						break;
+					}
+				}
+				
+				int i = index;
+				Process* tmp = mapping[i];
+				for(; i < process_num - 1; i++) {
+					if(mapping[i + 1]->pid != -1 && mapping[i + 1]->ready_time < time) {
+						mapping[i] = mapping[i + 1];
+					} else {
+						break;
+					}
+				}
+				mapping[i] = tmp;
+			}
+
 			for(int i = 0; i < process_num; i++) {
-				int index = (last + 1 + i) % process_num;
-				if(processes[index].pid != -1 && processes[index].run_time != processes[index].exec_time) {
-					return index;
+				if(mapping[i]->pid != -1 && mapping[i]->run_time < mapping[i]->exec_time) {
+					return mapping[i] - processes;
 				}
 			}
 			return -1;
@@ -62,6 +83,11 @@ void schedule(Process* processes, int process_num, int policy_index) {
 	int last = -1;
 	int finish_process = 0;
 
+	Process** mapping = (Process**)malloc(sizeof(Process*) * process_num);
+	for(int i = 0; i < process_num; i++) {
+		mapping[i] = &processes[i];
+	}		
+
 	pid_t pid = getpid();
 	unblock(pid, PARENT);
 
@@ -77,8 +103,15 @@ void schedule(Process* processes, int process_num, int policy_index) {
 			}
 		}
 		
-		int next = next_process(processes, process_num, policy_index, running, last);
-
+		int next = next_process(processes, process_num, policy_index, running, last, mapping, time);
+		/*
+		if(time % 100 == 0) {
+			printf("time = %d, next = %d\n", time, next);
+			for(int i = 0; i < process_num; i++) {
+				printf("%s ", mapping[i]->name);
+			}
+			printf("\n");
+		}*/
 		if(next != running) {
 			if(running != -1) {
 				block(processes[running].pid, PARENT);
